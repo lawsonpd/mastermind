@@ -1,20 +1,5 @@
 import random
 
-def scramble(nums: list) -> list:
-    '''
-    Scrambles a list of (sorted or unsorted) numbers.
-
-    @param nums: list of numbers
-
-    Returns new list of numbers in `nums` with numbers in random order
-    '''
-    for i in range(len(nums)):
-        rand = random.randrange(0, len(nums))
-        # print(f'i: {i}, rand: {rand}')
-        nums[i], nums[rand] = nums[rand], nums[i]
-
-    return nums
-
 class Mastermind:
     def __init__(self):
         self.colors = ['blue', 'purple', 'red', 'orange', 'green', 'yellow']
@@ -35,7 +20,7 @@ class Mastermind:
                 if guess[idx] != color:
                     clue.append("white")
                     sec[i] = None
-        self.clues.append(scramble(clue))
+        self.clues.append(random.shuffle(clue))
         return clue
 
     def make_guess(self, guess):
@@ -46,13 +31,23 @@ class Mastermind:
         result = self.evaluate_guess(guess)
         if result == "correct":
             print("Your guess was correct! You win!")
-            self.gameover = True
+            self.end_game()
         elif len(self.guesses) == 10:
             print(f"That was your last guess, but it was incorrect! The secret was [{' '.join(color for color in self.secret)}]. Game over :(")
-            self.gameover = True
+            self.end_game()
         else:
             print("Your guess was incorrect. Here's your clue:")
             print(f"[{' '.join(color for color in result)}]\n")
+
+    def previous_guesses(self):
+        "Display player's previous guesses"
+
+    def previous_clues(self):
+        "Display player's previous clues and corresponding guesses"
+
+    def end_game(self):
+        "Trigger game over"
+        self.gameover = True
 
 def main():
     mm = Mastermind()
