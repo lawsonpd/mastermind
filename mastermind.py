@@ -24,9 +24,9 @@ class Mastermind:
             # The following two lines are doing redundant work. We're looking into
             # the list twice for the color.
             # Try using `get_index` defined above.
-            elif color in sec[:i] or color in sec[i+1:]:
-                idx = sec.index(color)
-                if guess[idx] != color: # Really only need to do this check if idx > i
+            idx = get_index(sec, color)
+            if idx:
+                if idx < i or guess[idx] != color:
                     clue.append("white")
                     sec[idx] = None
         self.clues.append(random.shuffle(clue))
@@ -57,6 +57,10 @@ class Mastermind:
     def end_game(self):
         "Trigger game over"
         self.gameover = True
+
+def test():
+    mm = Mastermind()
+    mm.secret = ['red', 'red', 'purple', 'red']
 
 def main():
     mm = Mastermind()
