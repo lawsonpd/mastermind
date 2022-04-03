@@ -2,6 +2,6 @@
 
 import random
 
-def make_secret(colors, k=4):
+def make_secret(colors=['black', 'blue', 'green', 'purple', 'white', 'yellow'], k=4):
     return random.choices(colors, k=k)
 

@@ -1,5 +1,11 @@
 import random
 
+def get_index(coll, target):
+    for i, item in enumerate(coll):
+        if item == target:
+            return i
+    return None
+
 class Mastermind:
     def __init__(self):
         self.colors = ['blue', 'purple', 'red', 'orange', 'green', 'yellow']
@@ -15,11 +21,14 @@ class Mastermind:
             if color == sec[i]:
                 sec[i] = None
                 clue.append("black")
+            # The following two lines are doing redundant work. We're looking into
+            # the list twice for the color.
+            # Try using `get_index` defined above.
             elif color in sec[:i] or color in sec[i+1:]:
                 idx = sec.index(color)
-                if guess[idx] != color:
+                if guess[idx] != color: # Really only need to do this check if idx > i
                     clue.append("white")
-                    sec[i] = None
+                    sec[idx] = None
         self.clues.append(random.shuffle(clue))
         return clue
 
