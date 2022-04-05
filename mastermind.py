@@ -4,7 +4,6 @@ def get_index(coll, target):
     for i, item in enumerate(coll):
         if item == target:
             return i
-    return None
 
 class Mastermind:
     def __init__(self):
@@ -19,16 +18,14 @@ class Mastermind:
         clue = []
         for i, color in enumerate(guess):
             if color == sec[i]:
-                sec[i] = None
                 clue.append("black")
-            # The following two lines are doing redundant work. We're looking into
-            # the list twice for the color.
-            # Try using `get_index` defined above.
-            idx = get_index(sec, color)
-            if idx:
-                if idx < i or guess[idx] != color:
+                sec[i] = None
+                continue
+            j = get_index(sec, color)
+            if j is not None:
+                if j < i or guess[j] != color:
                     clue.append("white")
-                    sec[idx] = None
+                    sec[j] = None
         self.clues.append(random.shuffle(clue))
         return clue
 
@@ -61,8 +58,10 @@ class Mastermind:
 def test():
     mm = Mastermind()
     mm.secret = ['red', 'red', 'purple', 'red']
+    clue = mm.evaluate_guess('purple red red red'.split())
+    assert clue.sort() == ['black', 'black', 'white', 'white']
 
-def main():
+def play():
     mm = Mastermind()
     print("Welcome to Mastermind!\n")
     print(f"The computer will choose a secret sequence of 4 colors, each of which can be one of the following: {', '.join(color for color in mm.colors)}.\n")
@@ -72,4 +71,4 @@ def main():
         guess = mm.make_guess(input("Enter your guess: "))
 
 if __name__ == '__main__':
-    main()
+    play()
