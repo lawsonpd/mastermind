@@ -1,10 +1,5 @@
 import random
 
-def get_index(coll, target):
-    for i, item in enumerate(coll):
-        if item == target:
-            return i
-
 class Mastermind:
     def __init__(self):
         self.colors = ['blue', 'purple', 'red', 'orange', 'green', 'yellow']
@@ -21,7 +16,10 @@ class Mastermind:
                 clue.append("black")
                 sec[i] = None
                 continue
-            j = get_index(sec, color)
+            try:
+                j = sec.index(color)
+            except ValueError:
+                j = None
             if j is not None:
                 if j < i or guess[j] != color:
                     clue.append("white")

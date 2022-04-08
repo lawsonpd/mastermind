@@ -8,11 +8,15 @@ import random
 #         if item == target:
 #             return i
 
-def secret_code(colors=['black', 'blue', 'green', 'purple', 'white', 'yellow'], k=4):
+def secret_code(colors:list=['black', 'blue', 'green', 'purple', 'white', 'yellow'], k:int=4) -> list:
     "Return list of k randomly chosen colors."
     return random.choices(colors, k=k)
 
-def evaluate_guess(secret, guess):
+def fmt_text_guess(guess:str) -> list:
+    "Takes string repr of guess and returns list of colors in guess."
+    return guess.split()
+
+def evaluate_guess(secret:list, guess:list) -> list:
     "Evaluate guess and return clue."
     # We could first check whether secret == guess, but if it is, then we'll make
     # just one pass through the lists in the loop below, and if not, then we'd be
