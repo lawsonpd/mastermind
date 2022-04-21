@@ -8,7 +8,7 @@ import random
 #         if item == target:
 #             return i
 
-def secret_code(colors:list=['black', 'blue', 'green', 'purple', 'white', 'yellow'], k:int=4) -> list:
+def secret_code(colors:list=['purple', 'blue', 'green', 'purple', 'orange', 'yellow'], k:int=4) -> list:
     "Return list of k randomly chosen colors."
     return random.choices(colors, k=k)
 
