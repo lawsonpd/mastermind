@@ -7,8 +7,6 @@ class Mastermind:
 
     def evaluate_guess(self, guess):
         "Evaluate guess and return result (either 'correct' or clue)."
-        if guess == self.secret:
-            return "correct"
         sec = self.secret.copy() # Make copy to modify
         clue = []
         for i, color in enumerate(guess):
@@ -33,7 +31,7 @@ class Mastermind:
         guess = guess.split()
         self.guesses.append(guess)
         result = self.evaluate_guess(guess)
-        if result == "correct":
+        if result == ["black"] * 4:
             print("Your guess was correct! You win!")
             self.end_game()
         elif len(self.guesses) == 10:
