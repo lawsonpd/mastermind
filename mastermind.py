@@ -59,7 +59,7 @@ def test():
     clue = mm.evaluate_guess('purple red red red'.split())
     assert clue.sort() == ['black', 'black', 'white', 'white']
 
-def play():
+def game():
     mm = Mastermind()
     print("Welcome to Mastermind!\n")
     print(f"The computer will choose a secret sequence of 4 colors, each of which can be one of the following: {', '.join(color for color in mm.colors)}.\n")
@@ -69,4 +69,4 @@ def play():
         guess = mm.make_guess(input("Enter your guess: "))
 
 if __name__ == '__main__':
-    play()
+    game()
