@@ -35,7 +35,9 @@ class Mastermind:
             print("Your guess was correct! You win!")
             self.end_game()
         elif len(self.guesses) == 10:
-            print(f"That was your last guess, but it was incorrect! The secret was [{' '.join(color for color in self.secret)}]. Game over :(")
+            print("That was your last guess, but it was incorrect!")
+            print(f"The secret was [{' '.join(color for color in self.secret)}].")
+            print("Game over :(")
             self.end_game()
         else:
             print("Your guess was incorrect. Here's your clue:")
