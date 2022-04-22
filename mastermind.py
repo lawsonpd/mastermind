@@ -22,7 +22,6 @@ class Mastermind:
                 if j < i or guess[j] != color:
                     clue.append("white")
                     sec[j] = None
-        self.clues.append(random.shuffle(clue))
         return clue
 
     def make_guess(self, guess):
@@ -31,6 +30,7 @@ class Mastermind:
         guess = guess.split()
         self.guesses.append(guess)
         result = self.evaluate_guess(guess)
+        self.clues.append(random.shuffle(result))
         if result == ["black"] * 4:
             print("Your guess was correct! You win!")
             self.end_game()
