@@ -12,7 +12,7 @@ class TestMastermind(unittest.TestCase):
         assert clue == ['black', 'black', 'white', 'white']
 
     def test_not_gameover_after_one_incorrect_guess(self):
-        "tests that mm.gameover == False after a single incorrect guess."
+        "Tests that mm.gameover == False after a single incorrect guess."
         mm = Mastermind()
         mm.secret = ['red', 'red', 'purple', 'red']
         incorrect_guess = 'blue blue blue blue'
