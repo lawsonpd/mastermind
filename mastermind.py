@@ -5,8 +5,19 @@ class Mastermind:
         self.colors = ['blue', 'purple', 'red', 'orange', 'green', 'yellow']
         self.secret, self.guesses, self.clues, self.gameover = random.choices(self.colors, k=4), [], [], False
 
-    def evaluate_guess(self, guess):
-        "Evaluate guess and return result (either 'correct' or clue)."
+    def make_guess(self, guess):
+        "Add guess (str) to self.guesses and return clue if not last guess, otherwise end game."
+        assert(not self.gameover, "Game is over") # Necessary?
+        guess = guess.split()
+        self._record_guess(guess)
+        clue = self._evaluate_guess(guess)
+        self._record_clue(clue)
+        if clue == ["black"] * 4 or len(self.guesses) == 10:
+            self._end_game()
+        return clue
+
+    def _evaluate_guess(self, guess):
+        "Evaluate guess and return (shuffled) clue."
         sec = self.secret.copy() # Make copy to modify
         clue = []
         for i, color in enumerate(guess):
@@ -22,41 +33,33 @@ class Mastermind:
                 if j < i or guess[j] != color:
                     clue.append("white")
                     sec[j] = None
+        random.shuffle(clue)
         return clue
 
-    def make_guess(self, guess):
-        "Add guess to self.guesses and return clue if not last guess, otherwise end game."
-        # assert len(self.guesses) < 10 # Only 10 guesses allowed
-        guess = guess.split()
+    def _record_guess(self, guess):
+        "Add guess to guesses store"
         self.guesses.append(guess)
-        result = self.evaluate_guess(guess)
-        self.clues.append(random.shuffle(result))
-        if result == ["black"] * 4:
-            print("Your guess was correct! You win!")
-            self.end_game()
-        elif len(self.guesses) == 10:
-            print("That was your last guess, but it was incorrect!")
-            print(f"The secret was [{' '.join(color for color in self.secret)}].")
-            print("Game over :(")
-            self.end_game()
-        else:
-            print("Your guess was incorrect. Here's your clue:")
-            print(f"[{' '.join(color for color in result)}]\n")
 
-    def previous_guesses(self):
-        "Display player's previous guesses"
+    def _record_clue(self, clue):
+        "Add clue to clues store"
+        self.clues.append(clue)
 
-    def previous_clues(self):
-        "Display player's previous clues and corresponding guesses"
-
-    def end_game(self):
+    def _end_game(self):
         "Trigger game over"
         self.gameover = True
+
+    def previous_guesses(self):
+        "Return player's previous guesses"
+        return self.guesses
+
+    def previous_clues(self):
+        "Return player's previous clues and corresponding guesses"
+        return self.clues
 
 def test():
     mm = Mastermind()
     mm.secret = ['red', 'red', 'purple', 'red']
-    clue = mm.evaluate_guess('purple red red red'.split())
+    clue = mm.make_guess('purple red red red'.split())
     assert clue.sort() == ['black', 'black', 'white', 'white']
 
 def game():
@@ -66,7 +69,14 @@ def game():
     print("Enter your guess in the following format: 'color1 color2 color3 color4'.\n")
     print("You have 10 tries. Let's go!\n")
     while not mm.gameover:
-        guess = mm.make_guess(input("Enter your guess: "))
+        guess = input("Enter your guess: ")
+        clue = mm.make_guess(guess)
+        print(f"Your guess: {guess}")
+        if clue == ['black'] * 4:
+            print("Correct! You win!")
+        else:
+            print("Incorrect!")
+            print(f"Your clue: {clue}\n")
 
 if __name__ == '__main__':
     game()
